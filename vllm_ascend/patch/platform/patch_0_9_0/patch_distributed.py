@@ -43,7 +43,9 @@ def stateless_init_torch_distributed_process_group(
     """
     init_method = f"tcp://{host}:{port}"
     backend = Backend(backend)  # it is basically string
-    timeout = _get_default_timeout(backend)
+    # timeout = _get_default_timeout(backend) # 1800000
+    from datetime import timedelta
+    timeout = timedelta(milliseconds=600000)
 
     store, rank, world_size = next(
         rendezvous(init_method, rank, world_size, timeout=timeout))
